@@ -1,0 +1,18 @@
+@import './wifi.scss';
+@import './audio.scss';
+@import './powerBtn.scss';
+@import './resource.scss';
+@import './workspace.scss';
+
+.bar0 {
+  background: rgba(0, 0, 0, 0);
+}
+
+.time {
+  font-size: 20px;
+  font-weight: 500;
+  background: rgb(0, 0, 0);
+  padding: 0 12px;
+  margin: 3px 0;
+  border-radius: 12px 12px 12px 12px;
+}
