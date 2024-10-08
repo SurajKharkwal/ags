@@ -8,3 +8,41 @@
   min-width: 200px;
   border-radius: 0px 0px 8px 25px;
 }
+
+
+.wifi-win {
+  background: black;
+  color: #57534e;
+  font-size: 18px;
+  border-radius: 8px;
+}
+
+.wifi-header {
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.wifi-reload-btn {
+  background: transparent;
+  box-shadow: inset 0 0 0 0px rgba(0, 123, 255, 0.5);
+  border: 0px solid #007bff;
+  transition: box-shadow 0.3s ease, border 0.3s ease;
+  color: #57534e;
+}
+
+.wifi-box {
+  padding: 20px;
+  min-width: 400px;
+  min-height: 300px;
+}
+
+
+.wifi-input {
+  font-size: 18px;
+  padding: 0px 12px;
+}
+
+.wifi-input:focus {
+  border: 2px solid #737373;
+}

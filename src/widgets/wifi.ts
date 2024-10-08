@@ -6,6 +6,8 @@ const { Label, CenterBox, Box, Button, Window, EventBox, Entry } = Widget
 const showEntry = Variable<ConnectionsType | null>(null)  // store the ConnectionsType object of the wifi to show entry
 
 const PasswordInput = (placeholder: string, ssid: string) => Widget.Entry({
+  className: "wifi-input",
+  visibility: false,
   placeholderText: placeholder || "Enter password",  // Ensure there's always a placeholder
   onAccept: async ({ text }) => {
     try {
@@ -23,21 +25,20 @@ const PasswordInput = (placeholder: string, ssid: string) => Widget.Entry({
 const wifiLabel = (data: ConnectionsType) => {
   if (!data.ssid) return Widget.Label("Invalid Wi-Fi data");
 
-  const isInputVisible = Variable(false);  // Track password input visibility
-
   const wifiLabels = Widget.Box({
+    spacing: 8,
     children: [
       Widget.Label(data.icon),  // Wi-Fi icon
-      Widget.Label(`${data.ssid} (${data.rate} Mbps)`),  // SSID and rate display
-      Widget.Button({
-        label: "󰛂",  // Toggle input visibility button
-        on_clicked: () => { isInputVisible.setValue(!isInputVisible.value); console.log(isInputVisible.value) }
-      }),
+      Widget.Label(`${data.ssid} (${data.rate})`),  // SSID and rate display
     ],
   });
   return EventBox({
-    on_primary_click: () => showEntry.setValue(data),
+    on_primary_click: () => {
+      if (showEntry.value == data) showEntry.setValue(null)
+      else showEntry.setValue(data)
+    },
     child: Box({
+      spacing: 10,
       vertical: true,
       children: [wifiLabels, PasswordInput("Enter wifi password", data.ssid)
       ],
@@ -50,8 +51,11 @@ const wifiLabel = (data: ConnectionsType) => {
 }
 
 const wifiHeader = CenterBox({
-  startWidget: Label("Wifi "),
+  className: "wifi-header",
+  startWidget: Label({ hpack: "start", label: "Wifi " }),
   endWidget: Button({
+    className: "wifi-reload-btn",
+    hpack: "end",
     on_primary_click: async () => {
       loading.setValue(true)
       connections.setValue(await getAvailableConnections())
@@ -76,16 +80,21 @@ const createChildren = () => {
 }
 
 export const wifiMenu = Box({
+  className: "wifi-box",
   vertical: true,
+  spacing: 10,
   children: [wifiHeader, ...createChildren()]
 }).hook(loading, box => box.children = [wifiHeader, ...createChildren()]
 )
 
 export const wifiWindow = Window({
   monitor: 0,
+  margins: [5, 375],
+  anchor: ["top", "right"],
   visible: false,
   name: "wifi-window",
   keymode: "on-demand",
+  className: "wifi-win",
   child: wifiMenu
 });
 
